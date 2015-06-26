@@ -1,0 +1,22 @@
+{
+  "name": "class-toggle-utc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "are-we-open.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Talamantez/class-toggle-utc.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Talamantez/class-toggle-utc/issues"
+  },
+  "homepage": "https://github.com/Talamantez/class-toggle-utc",
+  "dependencies": {
+    "q": "^1.4.1"
+  }
+}

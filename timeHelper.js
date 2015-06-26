@@ -7,43 +7,34 @@
  *   toggles .closed class to shown.
 */  
 
-(function() {
-    var timeHelper = function( open, close ){
-        var self = this;
+'use strict';
 
-        self.open = open;
-        self.close = close;
-        self.currentUTC = null;
+var timeHelper = function( open, close ){
+    var self = this;
 
-        self.initUTCHour = function(){
-            self.currentUTC = new Date( Date() ).getUTCHours();
-        }
-        
-        self.compareUTCHourRange = function(){
-                // grab the current hour in UTC time
-                self.initUTCHour();
+    self.open = open;
+    self.close = close;
+    self.currentUTC = null;
 
-                // If the current UTC hour is after the opening hour and before the closing hour, toggle open to 'shown'
-                
-                if ( self.currentUTC >= self.open && self.currentUTC < self.close ) {
-
-                    $( '.open' ).toggleClass( 'shown' );
-
-                    console.log( 'open for business' );
-                
-                // Else, toggle closed to 'shown'
-                
-                } else {
-                
-                    $( '.closed' ).toggleClass( 'shown' );
-
-                    console.log( 'we\'re closed right now' );
-                
-                };
-        }
+    self.initUTCHour = function(){
+        self.currentUTC = new Date( Date() ).getUTCHours();
+    }();
+    
+    self.compareUTCHourRange = function(){
+            // If the current UTC hour is after the opening hour and before the closing hour, return 'open'
+            
+            if ( self.currentUTC >= self.open && self.currentUTC < self.close ) {
+                console.log('open');
+                return 'open';
+            
+            // Else, return 'closed'
+            
+            } else {
+                console.log('closed');
+                return 'closed';
+            
+            };
     }
-  console.log('returning timeHelper');
-  console.dir(timeHelper);
-  return timeHelper;
+}
 
-})();
+module.exports.timeHelper = timeHelper;

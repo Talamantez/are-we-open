@@ -26,36 +26,35 @@
   * If so, it toggles .open class to shown, if not, it
   * toggles .closed class to shown.
   */  
-    var timeHelper = function( open, close ){
-        var self = this;
+    // var timeHelper = function( open, close ){
+    //     var self = this;
 
-        self.open = open;
-        self.close = close;
-        self.currentUTC = null;
+    //     self.open = open;
+    //     self.close = close;
+    //     self.currentUTC = null;
 
-        self.initUTCHour = function(){
-            self.currentUTC = new Date( Date() ).getUTCHours();
-        }
+    //     self.initUTCHour = function(){
+    //         self.currentUTC = new Date( Date() ).getUTCHours();
+    //     }()
         
-        self.compareUTCHourRange = function(){
-                // grab the current hour in UTC time
-                self.initUTCHour();
+    //     self.compareUTCHourRange = function(){
+            
+    //             // If the current UTC hour is after the opening hour and before the closing hour, return 'open'
+                
+    //             if ( self.currentUTC >= self.open && self.currentUTC < self.close ) {
 
-                // If the current UTC hour is after the opening hour and before the closing hour, toggle open to 'shown'
+    //                 return 'open';
                 
-                if ( self.currentUTC >= self.open && self.currentUTC < self.close ) {
-
-                    return 'open';
+    //             // Else, return 'closed'
                 
-                // Else, toggle closed to 'shown'
-                
-                } else {
+    //             } else {
                     
-                    return 'closed';
+    //                 return 'closed';
                 
-                };
-        }
-    }
+    //             };
+    //     }
+    // }
+
 $( document ).ready(function() {
 
     // Initialize a time helper with a start time of 6am // PST ( 1 UTC ) and 6pm end time ( 12 UTC )
@@ -72,7 +71,6 @@ $( document ).ready(function() {
 
 });
 </script>
-<head></head>
+
 <div class="open"> Heyooo We're Open</div>
 <div class="closed"> Shucks, you missed us. Catch us in the morning!</div>
-

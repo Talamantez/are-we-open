@@ -45,17 +45,13 @@
                 
                 if ( self.currentUTC >= self.open && self.currentUTC < self.close ) {
 
-                    $( '.open' ).toggleClass( 'shown' );
-
-                    console.log( 'open for business' );
+                    return 'open';
                 
                 // Else, toggle closed to 'shown'
                 
                 } else {
-                
-                    $( '.closed' ).toggleClass( 'shown' );
-
-                    console.log( 'we\'re closed right now' );
+                    
+                    return 'closed';
                 
                 };
         }

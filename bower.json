@@ -1,0 +1,20 @@
+{
+  "name": "class-toggle-utc",
+  "version": "0.0.0",
+  "authors": [
+    "Robert Talamantez <rtalamantez@stelladot.com>"
+  ],
+  "description": "toggle divs on and off if they fall in a utc time range",
+  "main": "class-toggle-utc.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4"
+  }
+}

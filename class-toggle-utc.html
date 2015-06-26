@@ -1,0 +1,77 @@
+<script src="./bower_components/jquery/dist/jquery.js"></script>
+
+<!-- 1) compare Date.now() to 6am PST. 
+            6 am PST is 1 pm UTC (hour 12)
+     2) compare Date.now() to 6pm PST
+            6 pm PST is 1 am UTC (Hour 1)
+-->
+
+<style>
+    /* Make all the divs hidden by default */
+    .open {
+        display:none;
+    }
+    
+    .closed {
+        display:none;
+    }
+    
+    /* create a class to toggle the divs on based on the UTC time */
+    .shown {
+        display: block;
+    }
+
+</style>
+
+<script>
+
+ /* 
+  * timeHelper() accepts a start hour and closing hour in UTC.
+  * Its compareUTCHourRange() function checks to see if the 
+  * current UTC time falls between the open and close times.
+  * If so, it toggles .open class to shown, if not, it
+  * toggles .closed class to shown.
+  */  
+
+var timeHelper = function( open, close ){
+    var self = this;
+
+    self.open = open;
+    self.close = close;
+    self.currentUTC = null;
+
+    self.initUTCHour = function(){
+        self.currentUTC = new Date( Date() ).getUTCHours();
+    }
+    
+    self.compareUTCHourRange = function(){
+            // grab the current hour in UTC time
+            self.initUTCHour();
+
+            // If the current UTC hour is after the opening hour and before the closing hour, toggle open to 'shown'
+            
+            if ( self.currentUTC >= self.open && self.currentUTC < self.close ) {
+
+                $( '.open' ).toggleClass( 'shown' );
+                console.log( 'open for business' );
+            
+            // Else, toggle closed to 'shown'
+            
+            } else {
+            
+                $( '.closed' ).toggleClass( 'shown' );
+                console.log( 'we\'re closed right now' );
+            
+            };
+    }
+}
+
+$( document ).ready(function() {
+    // Initialize a time helper with a start time of 6am PST ( 1 UTC ) and 6pm end time ( 12 UTC )
+    var myTimeHelper = new timeHelper( 3 , 12 );
+    myTimeHelper.compareUTCHourRange();
+});
+</script>
+
+<div class="open"> Heyooo We're Open</div>
+<div class="closed"> Shucks, you missed us. Catch us in the morning!</div>

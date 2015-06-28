@@ -14,5 +14,12 @@ var newTimehelper = function( open, close ){
     return deferred.promise;
 }
 
+newTimehelper( 
+                {        
+                        weekdayOpen = 1;
+                        weekendOpen = 3;
+                        weekdayClose = 12;
+                        weekendClose = 11;
+                }
 
-newTimehelper( 1 , 12 ).then( T.compareUTCHourRange() );
+            ).then( T.compareHourRange() );

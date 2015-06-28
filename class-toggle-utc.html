@@ -23,11 +23,16 @@
 
 $( document ).ready(function() {
 
-    // Initialize a time helper with a start time of 6am // PST ( 1 UTC ) and 6pm end time ( 12 UTC )
+    // Initialize a new timeHelper with the hours you want in UTC
     
-    var myTimeHelper = new timeHelper(  1, 12 );
-    
-    if( myTimeHelper.compareUTCHourRange() === 'open'){
+    var myTimeHelper = new timeHelper({
+        weekdayOpen = 1;
+        weekendOpen = 3;
+        weekdayClose = 12;
+        weekendClose = 11;
+    });
+
+    if( myTimeHelper.isOpen() === 'open'){
 
         $( '.open' ).toggleClass( 'shown' );
 

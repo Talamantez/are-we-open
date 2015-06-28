@@ -4,22 +4,20 @@ var t = require('./timeHelper');
 var q = require('q');
 var T = null;
 
-var newTimehelper = function( open, close ){
+var newTimehelper = function( params ){
 
     var deferred = q.defer();
 
     deferred.resolve(
-        T = new t.timeHelper( open, close )
+        T = new t.timeHelper(                
+                {        
+                        weekdayOpen : 1,
+                        weekendOpen : 3,
+                        weekdayClose : 12,
+                        weekendClose : 11
+                } )
     );
     return deferred.promise;
 }
 
-newTimehelper( 
-                {        
-                        weekdayOpen = 1;
-                        weekendOpen = 3;
-                        weekdayClose = 12;
-                        weekendClose = 11;
-                }
-
-            ).then( T.compareHourRange() );
+newTimehelper().then( T.printHours() ).then( T.compareHourRange() );

@@ -88,6 +88,7 @@ var timeHelper = function( params ){
         // if the current hour - 8 goes into the negative
         // it means the day UTC is the previous day PST
         // Accepts an object with hour "offset" as a param
+        console.log('checking for previous day');
 
         if( self.hours - params.offset > 0 ){
             return true;
@@ -101,6 +102,7 @@ var timeHelper = function( params ){
     // localize to previous day if an 8 hour negative offset returns a negative value 
     // self.isPreviousDay takes the hour offset as a param
     // since PST is 8 hours behind UTC, use 8 as the offset param
+    console.log('localizing');
         if ( self.isPreviousDay( {
                 offset: 8
             })
@@ -110,6 +112,7 @@ var timeHelper = function( params ){
     };
 
     self.checkWeekend = function(){
+        console.log('checking weekend');
         if( self.day === 0 || self.day === 7 ){
             self.isWeekend = true;
         } else {
@@ -120,6 +123,7 @@ var timeHelper = function( params ){
     self.checkEdgeDay = function(){
         // If it's Sat or Mon UTC, but Fri or Sun PST, check to see if the day needs
         // to be localized
+        console.log('checking edge day');
         
         if( self.day === 1 || self.day === 7 ){
             self.localizePST();
@@ -128,6 +132,7 @@ var timeHelper = function( params ){
     };
 
     self.setHours = function(){
+        console.log('setting hours');
         var deferred = q.defer();
         deferred.resolve(
             function(){
@@ -154,6 +159,7 @@ var timeHelper = function( params ){
             .then(
                 function(){
 
+                    console.log('comparing Hour range');
                     // If the current UTC hour is after the opening hour and before the closing hour, return 'open'
                     if ( self.hour >= self.open && self.hour < self.close ) {
                         console.log('open');
@@ -167,7 +173,7 @@ var timeHelper = function( params ){
                     
                     };
 
-                }
+                }()
             );                
     };
 };

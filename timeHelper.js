@@ -5,10 +5,10 @@
 /*  Initialize a timeHelper with UTC hours for weekday and weekend hours
 
     var myTimeHelper = new timeHelper({
-        this.weekdayOpen = 1;
-        this.weekdayClose = 12;
-        this.weekendOpen = 3;
-        this.weekendClose = 11;
+        weekdayOpen : 1;
+        weekdayClose : 12;
+        weekendOpen : 3;
+        weekendClose : 11;
     });
 */
 

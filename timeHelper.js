@@ -5,10 +5,10 @@
 /*  Initialize a timeHelper with UTC hours for weekday and weekend hours
 
     var myTimeHelper = new timeHelper({
-        weekdayOpen : 1;
-        weekdayClose : 12;
-        weekendOpen : 3;
-        weekendClose : 11;
+        weekdayOpen : 1,
+        weekdayClose : 12,
+        weekendOpen : 3,
+        weekendClose : 11
     });
 */
 
@@ -21,6 +21,9 @@ var timeHelper = function( params ){
     var self = this;
 
     // extract weekday and weekend hours from params object
+    if( !params.weekdayOpen || !params.weekdayClose || !params.weekendOpen || !params.weekendClose){
+        throw new Error(' Look like you\'re missing a parameter');
+    }
     self.weekdayOpen  = params.weekdayOpen;
     self.weekdayClose = params.weekdayClose;
     self.weekendOpen  = params.weekendOpen;
@@ -37,21 +40,12 @@ var timeHelper = function( params ){
 
     // Generate a new date when the object is created
     self.generateDate = function(){
-        self.date = new Date( Date() );
-    }();
-
-    // Initialize Day and Hour when called
-
-    self.initHourAndDay = function(){
+        //console.log( new Date( Date() ) );
         var deferred = q.defer();
         deferred.resolve = (
-            function(){
-                self.generateDay();
-                self.generateHour();
-            }()
+            self.date = new Date( Date() )
         );
         return deferred.promise;
-
     };
 
     self.generateDay = function(){
@@ -68,6 +62,19 @@ var timeHelper = function( params ){
             self.hour = self.date.getUTCHours()
         );
         return deferred.promise;
+    };
+    // Initialize Day and Hour when called
+
+    self.initTime = function(){
+        var deferred = q.defer();
+        deferred.resolve = (
+            function(){
+                self.generateDay();
+                self.generateHour();
+            }()
+        );
+        return deferred.promise;
+
     };
 
     self.printHours = function(){

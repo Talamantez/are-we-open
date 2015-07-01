@@ -20,4 +20,12 @@ var newTimehelper = function( params ){
     return deferred.promise;
 }
 
-newTimehelper().then( T.printHours() );
+newTimehelper()
+    .then(  T.generateDate() )
+    .then(
+        function( data ){
+            console.log( data );
+        }
+    )
+
+    ;

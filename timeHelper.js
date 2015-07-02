@@ -19,6 +19,21 @@ var q = require('q');
 var timeHelper = function( params ){
     // all hours are UTC
     var self = this;
+
+    // throw an error if the params are anything other than the expected params
+
+    for( var prop in params ){
+        if( prop !== 'weekdayOpen'){
+            if( prop !== 'weekdayClose'){
+                if( prop !== 'weekendOpen'){
+                    if( prop !== 'weekendClose'){
+                        throw new Error('You have to use valid properties to initialize this method');                        
+                    }
+                }
+            }
+        }
+    }
+
     // extract weekday and weekend hours from params object
     if( !params.weekdayOpen || !params.weekdayClose || !params.weekendOpen || !params.weekendClose){
         throw new Error(' Look like you\'re missing a parameter');
@@ -40,19 +55,7 @@ var timeHelper = function( params ){
             throw new Error('Open and close hours must be 1 or 2 digits');
         }
     }
-    // throw an error if the params are anything other than the expected params
 
-    for( var prop in params ){
-        if( prop !== 'weekdayOpen'){
-            if( prop !== 'weekdayClose'){
-                if( prop !== 'weekendOpen'){
-                    if( prop !== 'weekendClose'){
-                        throw new Error('You have to use valid properties to initialize this method');                        
-                    }
-                }
-            }
-        }
-    }
 
     self.weekdayOpen  = params.weekdayOpen;
     self.weekdayClose = params.weekdayClose;

@@ -3,7 +3,76 @@ var expect = require('chai').expect;
 var chai = require('chai');
 var t = require('../timeHelper.js');
 
-suite("Initialize new timeHelper object", function(){
+suite("initialization testing", function(){
+    
+    test("throw an error if a function is passed as a param", function(){
+        var params = {
+            weekdayOpen : function(){ 
+                console.log('I\'m sorry, but you\'re compromised with wild hackings')
+            }(),
+            weekdayClose : 12,
+            weekendOpen : 2,
+            weekendClose : 11
+        };
+        var fn = function(){
+            var T = new t.timeHelper( params )
+        };
+        expect( fn ).to.throw( Error );
+    });
+    
+    test("throw an error if a param is a string", function(){
+        var params = {
+            weekdayOpen: 'tacos',
+            weekdayClose : 12,
+            weekendOpen : 2,
+            weekendClose : 11
+        };
+        var fn = function(){
+            var T = new t.timeHelper( params )
+        };
+        expect( fn ).to.throw( Error );
+    });
+
+    test("throw an error if params are missing", function(){
+        var params = {
+            weekdayClose : 12,
+            weekendOpen : 2,
+            weekendClose : 11            
+        };
+        var fn = function(){
+            var T = new t.timeHelper( params )
+        };
+        expect( fn ).to.throw( Error );
+    });
+
+    test("throw an error if params are not between 1 and 2 digits", function(){
+        var params = {
+            weekdayOpen : 123,
+            weekdayClose : 12,
+            weekendOpen : 2,
+            weekendClose : 11            
+        };
+        var fn = function(){
+            var T = new t.timeHelper( params )
+        };
+        expect( fn ).to.throw( Error );
+    });
+
+    test("throw an error if unexpected properties are specified", function(){
+        var params = {
+            Unexpected : 1,
+            weekdayClose : 12,
+            weekendOpen : 2,
+            weekendClose : 11            
+        };
+        var fn = function(){
+            var T = new t.timeHelper( params )
+        };
+        expect( fn ).to.throw( Error );
+    });    
+})
+
+suite("test the object", function(){
     /*
      *  timeHelpers accepts the following params to initialize it:
      *     

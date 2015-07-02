@@ -69,7 +69,20 @@ suite("initialization testing", function(){
             var T = new t.timeHelper( params )
         };
         expect( fn ).to.throw( Error );
-    });    
+    });
+
+    test("4 expected params as 1-2 digit nums should not error", function(){
+        var params = {
+            weekdayOpen : 1,
+            weekdayClose : 12,
+            weekendOpen : 2,
+            weekendClose : 11            
+        };
+        var fn = function(){
+            var T = new t.timeHelper( params )
+        };
+        expect( fn ).to.not.throw( Error );        
+    })
 })
 
 suite("test the object", function(){

@@ -56,7 +56,6 @@ var timeHelper = function( params ){
         }
     }
 
-
     self.weekdayOpen  = params.weekdayOpen;
     self.weekdayClose = params.weekdayClose;
     self.weekendOpen  = params.weekendOpen;

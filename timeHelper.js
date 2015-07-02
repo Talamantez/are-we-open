@@ -36,14 +36,13 @@ var timeHelper = function( params ){
 
     // extract weekday and weekend hours from params object
     if( !params.weekdayOpen || !params.weekdayClose || !params.weekendOpen || !params.weekendClose){
-        throw new Error(' Look like you\'re missing a parameter');
+        throw new Error(' Looks like you\'re missing a parameter');
     }
 
     // throw an error if the params are anything other than numbers
     
     for ( var prop in params ) {
         if( typeof params[ prop ] !== "number" ){
-
             throw new Error('Hours must be numbers');
         }
     }
@@ -129,18 +128,20 @@ var timeHelper = function( params ){
         // Accepts an object with hour "offset" as a param
         console.log('checking for previous day');
 
-        if( self.hours - params.offset > 0 ){
-            return true;
-        } else {
+        if( self.hour - params.offset > 0 ){
             return false;
+        } else {
+            return true;
         }
 
     };
 
     self.localizePST = function(){
+
     // localize to previous day if an 8 hour negative offset returns a negative value 
     // self.isPreviousDay takes the hour offset as a param
     // since PST is 8 hours behind UTC, use 8 as the offset param
+
     console.log('localizing');
         if ( self.isPreviousDay( {
                 offset: 8
@@ -188,7 +189,6 @@ var timeHelper = function( params ){
         return deferred.promise;        
     };
 
-
     self.compareHourRange = function(){
         // Initialize the hour and day
         self.initHourAndDay()
@@ -209,7 +209,7 @@ var timeHelper = function( params ){
                     } else {
                         console.log('closed');
                         return 'closed';
-                    
+
                     };
 
                 }()

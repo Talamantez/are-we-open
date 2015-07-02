@@ -164,7 +164,22 @@ suite("test the object", function(){
     test("a timeHelper object should not have the octopus property", function(){
             expect( T ).to.not.have.property('octopus');
         });
+});
 
+suite("time-generation: ", function(){
+    var T = null;
+    var params =
+        {
+            weekdayOpen : 1,
+            weekdayClose : 12,
+            weekendOpen : 2,
+            weekendClose : 11
+        };
+
+    beforeEach( function(){
+        T = null;
+        T = new t.timeHelper( params );    
+    } );    
     // Generate date tests
 
     test("generateDate should load a date object into self.date", function(){
@@ -301,4 +316,72 @@ suite("test the object", function(){
         )
     });
 
+
 });
+
+suite("Localize to PST : ", function(){
+    var T = null;
+    var params =
+        {
+            weekdayOpen : 1,
+            weekdayClose : 12,
+            weekendOpen : 2,
+            weekendClose : 11
+        };
+
+    beforeEach( function(){
+        T = null;
+        T = new t.timeHelper( params );    
+    } );    
+
+    // localization to PST
+
+
+    test("isPreviousDay should return true if T.hour - offset < 0", function(){
+        T.hour = 0 ;
+        expect( { offset: 8 } ).to.satisfy( 
+            function( offset ){
+                var result = T.isPreviousDay( offset );
+                return result;
+        });
+    });
+
+    test("isPreviousDay should return false if T.hour - offset > 0", function(){
+        T.hour = 10 ;
+        expect( { offset: 8 } ).to.not.satisfy( 
+            function( offset ){
+                var result = T.isPreviousDay( offset );
+                return result;
+        });
+    });
+
+    test("localizePST() should set T.day to T.day - 1 if T.hour - 8 < 0", function(){
+        T.generateDate();
+        T.generateDay();
+        T.hour = 0;
+        var storedDay = T.day;
+        T.localizePST();
+        expect( T.day ).to.be.below( storedDay );
+    });    
+
+    test("localizePST() should not set T.day to T.day - 1 if T.hour - 8 > 0", function(){
+        T.generateDate();
+        T.generateDay();
+        T.hour = 10;
+        var storedDay = T.day;
+        T.localizePST();
+        expect( T.day ).to.not.be.below( storedDay );
+    });  
+
+});
+
+
+
+
+
+
+
+
+
+
+

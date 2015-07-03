@@ -15,7 +15,6 @@
 'use strict';
 var q = require('q');
 
-
 var timeHelper = function( params ){
     // all hours are UTC
     var self = this;
@@ -27,7 +26,7 @@ var timeHelper = function( params ){
             if( prop !== 'weekdayClose'){
                 if( prop !== 'weekendOpen'){
                     if( prop !== 'weekendClose'){
-                        throw new Error('You have to use valid properties to initialize this method');                        
+                        throw new Error('You have to use valid properties to initialize this method');
                     }
                 }
             }
@@ -69,9 +68,11 @@ var timeHelper = function( params ){
     self.open  = null;
     self.close = null;
 
+    // initialize isOpen boolean
+    self.isOpen = null;
+
     // Generate a new date when the object is created
     self.generateDate = function(){
-        //console.log( new Date( Date() ) );
         var deferred = q.defer();
         deferred.resolve = (
             self.date = new Date( Date() )
@@ -87,7 +88,7 @@ var timeHelper = function( params ){
         return deferred.promise;
     };
     
-    self.generateHour = function(){
+    self.generateHour = function(){  
         var deferred = q.defer();
         deferred.resolve = (
             self.hour = self.date.getUTCHours()
@@ -100,12 +101,12 @@ var timeHelper = function( params ){
         var deferred = q.defer();
         deferred.resolve = (
             function(){
+                self.generateDate();
                 self.generateDay();
                 self.generateHour();
             }()
         );
         return deferred.promise;
-
     };
 
     self.printHours = function(){
@@ -126,7 +127,6 @@ var timeHelper = function( params ){
         // if the current hour - 8 goes into the negative
         // it means the day UTC is the previous day PST
         // Accepts an object with hour "offset" as a param
-        console.log('checking for previous day');
 
         if( self.hour - params.offset > 0 ){
             return false;
@@ -142,41 +142,39 @@ var timeHelper = function( params ){
     // self.isPreviousDay takes the hour offset as a param
     // since PST is 8 hours behind UTC, use 8 as the offset param
 
-    console.log('localizing');
-        if ( self.isPreviousDay( {
-                offset: 8
-            })
-        ){
-            self.day = self.day - 1;
+        if ( self.isPreviousDay( { offset: 8 } ) ){
+
+            if( self.day === 0 ){
+                self.day = 7;
+            } else {
+                self.day = self.day - 1;
+            }
         }
     };
 
-    self.checkWeekend = function(){
-        console.log('checking weekend');
-        if( self.day === 0 || self.day === 7 ){
-            self.isWeekend = true;
+    self.checkWeekend = function( day ){
+        // Check to see if it's saturday or sunday
+        if( day === 0 || day === 7 ){
+            return true;
         } else {
             return false;
         }
     };
 
-    self.checkEdgeDay = function(){
-        // If it's Sat or Mon UTC, but Fri or Sun PST, check to see if the day needs
-        // to be localized
-        console.log('checking edge day');
-        
-        if( self.day === 1 || self.day === 7 ){
-            self.localizePST();
+    self.checkEdgeDay = function( day ){
+        // Check to see if it's saturday or monday
+        if( day === 1 || day === 7 ){
+            return true;
+        } else {
+            return false;
         }
-
     };
 
-    self.setHours = function(){
-        console.log('setting hours');
+    self.setHourRange = function(){
         var deferred = q.defer();
         deferred.resolve(
             function(){
-                if( self.checkWeekend() ){
+                if( self.checkWeekend( self.day ) ){
                     // If true, set open and close to weekend hours
                     self.open = self.weekendOpen;
                     self.close = self.weekendClose;
@@ -185,40 +183,21 @@ var timeHelper = function( params ){
                     self.open = self.weekdayOpen;
                     self.close = self.weekdayClose;
                 }
-            });
+            }()
+        );
         return deferred.promise;        
     };
 
-    self.compareHourRange = function(){
-        // Initialize the hour and day
-        self.initHourAndDay()
-            .then( self.checkEdgeDay() )
-            .then( self.checkWeekend() )
-            .then( self.setHours() )
-            .then(
-                function(){
+    self.isOpen = function(){
 
-                    console.log('comparing Hour range');
-                    // If the current UTC hour is after the opening hour and before the closing hour, return 'open'
-                    if ( self.hour >= self.open && self.hour < self.close ) {
-                        console.log('open');
-                        return 'open';
-                    
-                    // Else, return 'closed'
-                    
-                    } else {
-                        console.log('closed');
-                        return 'closed';
-
-                    };
-
-                }()
-            );                
+        if( self.hour < self.open || self.hour >= self.close ){
+            return false;
+        }
+        else {
+            return true;
+        }
     };
+
 };
 
 module.exports.timeHelper = timeHelper;
-
-
-
-

@@ -188,6 +188,12 @@ var timeHelper = function( params ){
         return deferred.promise;        
     };
 
+    self.initHourRange = function(){
+        self.initTime();
+        self.localizePST();
+        self.setHourRange();
+    }
+    
     self.isOpen = function(){
 
         if( self.hour < self.open || self.hour >= self.close ){

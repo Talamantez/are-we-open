@@ -157,6 +157,10 @@ suite("test the object", function(){
             expect( T ).to.have.property('setHourRange');
         });
     
+    test("a timeHelper object should have the initHourRange function", function(){
+            expect( T ).to.have.property('initHourRange');
+        });
+      
     test("a timeHelper object should have the isOpen function", function(){
             expect( T ).to.have.property('isOpen');
         });
@@ -578,7 +582,30 @@ suite("Hour range comparison", function(){
         T.open = 11;
         T.close = 13;
         expect( T.isOpen() ).to.equal( true );
-    })
+    });
+
+    test("initHourRange should set self.date", function(){
+        T.initHourRange();
+        expect( T.date ).to.not.equal( null );
+    });
+    test("initHourRange should set self.day", function(){
+        T.initHourRange();
+        expect( T.day ).to.not.equal( null );
+    });
+    test("initHourRange should set self.hour", function(){
+        T.initHourRange();
+        expect( T.hour ).to.not.equal( null );
+    });
+    test("initHourRange should change the day if localization is necessary", function(){
+    });
+    test("initHourRange should set self.open", function(){
+        T.initHourRange();
+        expect( T.open ).to.not.equal( null );
+    });
+    test("initHourRange should set self.close", function(){
+        T.initHourRange();
+        expect( T.close ).to.not.equal( null );        
+    });
 
 });
 

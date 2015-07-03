@@ -11,10 +11,10 @@ var newTimehelper = function( params ){
     deferred.resolve(
         T = new t.timeHelper(                
                 {        
-                        weekdayOpen : 1,
-                        weekendOpen : 3,
-                        weekdayClose : 12,
-                        weekendClose : 11
+                    weekdayOpen : 6,
+                    weekdayClose : 18,
+                    weekendOpen : 8,
+                    weekendClose : 17
                 } )
     );
     return deferred.promise;
@@ -22,4 +22,4 @@ var newTimehelper = function( params ){
 
 newTimehelper();
 T.initHourRange();
-console.dir( T );
+console.log( T.isOpen() );

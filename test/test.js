@@ -10,9 +10,9 @@ suite("initialization testing", function(){
             weekdayOpen : function(){ 
                 console.log('I\'m sorry, but you\'re compromised with wild hackings')
             }(),
-            weekdayClose : 12,
-            weekendOpen : 2,
-            weekendClose : 11
+            weekdayClose : 18,
+            weekendOpen : 8,
+            weekendClose : 17
         };
         var fn = function(){
             var T = new t.timeHelper( params )
@@ -23,9 +23,9 @@ suite("initialization testing", function(){
     test("throw an error if a param is a string", function(){
         var params = {
             weekdayOpen: 'tacos',
-            weekdayClose : 12,
-            weekendOpen : 2,
-            weekendClose : 11
+            weekdayClose : 18,
+            weekendOpen : 8,
+            weekendClose : 17
         };
         var fn = function(){
             var T = new t.timeHelper( params )
@@ -35,9 +35,9 @@ suite("initialization testing", function(){
 
     test("throw an error if params are missing", function(){
         var params = {
-            weekdayClose : 12,
-            weekendOpen : 2,
-            weekendClose : 11            
+            weekdayClose : 18,
+            weekendOpen : 8,
+            weekendClose : 17            
         };
         var fn = function(){
             var T = new t.timeHelper( params )
@@ -48,9 +48,9 @@ suite("initialization testing", function(){
     test("throw an error if params are not between 1 and 2 digits", function(){
         var params = {
             weekdayOpen : 123,
-            weekdayClose : 12,
-            weekendOpen : 2,
-            weekendClose : 11            
+            weekdayClose : 18,
+            weekendOpen : 8,
+            weekendClose : 17            
         };
         var fn = function(){
             var T = new t.timeHelper( params )
@@ -60,10 +60,10 @@ suite("initialization testing", function(){
 
     test("throw an error if unexpected properties are specified", function(){
         var params = {
-            Unexpected : 1,
-            weekdayClose : 12,
-            weekendOpen : 2,
-            weekendClose : 11            
+            Unexpected : 6,
+            weekdayClose : 18,
+            weekendOpen : 8,
+            weekendClose : 17            
         };
         var fn = function(){
             var T = new t.timeHelper( params )
@@ -73,10 +73,10 @@ suite("initialization testing", function(){
 
     test("4 expected params as 1-2 digit nums should not error", function(){
         var params = {
-            weekdayOpen : 1,
-            weekdayClose : 12,
-            weekendOpen : 2,
-            weekendClose : 11            
+            weekdayOpen : 6,
+            weekdayClose : 18,
+            weekendOpen : 8,
+            weekendClose : 17            
         };
         var fn = function(){
             var T = new t.timeHelper( params )
@@ -99,10 +99,10 @@ suite("test the object", function(){
     var T = null;
     var params =
         {
-            weekdayOpen : 1,
-            weekdayClose : 12,
-            weekendOpen : 2,
-            weekendClose : 11
+            weekdayOpen : 6,
+            weekdayClose : 18,
+            weekendOpen : 8,
+            weekendClose : 17
         };
 
     beforeEach( function(){
@@ -174,10 +174,10 @@ suite("time-generation: ", function(){
     var T = null;
     var params =
         {
-            weekdayOpen : 1,
-            weekdayClose : 12,
-            weekendOpen : 2,
-            weekendClose : 11
+            weekdayOpen : 6,
+            weekdayClose : 18,
+            weekendOpen : 8,
+            weekendClose : 17
         };
 
     beforeEach( function(){
@@ -326,10 +326,10 @@ suite("Localize to PST : ", function(){
     var T = null;
     var params =
         {
-            weekdayOpen : 1,
-            weekdayClose : 12,
-            weekendOpen : 2,
-            weekendClose : 11
+            weekdayOpen : 6,
+            weekdayClose : 18,
+            weekendOpen : 8,
+            weekendClose : 17
         };
 
     beforeEach( function(){
@@ -392,10 +392,10 @@ suite("time-generation: ", function(){
     var T = null;
     var params =
         {
-            weekdayOpen : 1,
-            weekdayClose : 12,
-            weekendOpen : 2,
-            weekendClose : 11
+            weekdayOpen : 6,
+            weekdayClose : 18,
+            weekendOpen : 8,
+            weekendClose : 17
         };
 
     beforeEach( function(){
@@ -554,10 +554,10 @@ suite("Hour range comparison", function(){
     var T = null;
     var params =
         {
-            weekdayOpen : 1,
-            weekdayClose : 12,
-            weekendOpen : 2,
-            weekendClose : 11
+            weekdayOpen : 6,
+            weekdayClose : 18,
+            weekendOpen : 8,
+            weekendClose : 17
         };
 
     beforeEach( function(){

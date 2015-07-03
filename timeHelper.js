@@ -5,10 +5,10 @@
 /*  Initialize a timeHelper with UTC hours for weekday and weekend hours
 
     var myTimeHelper = new timeHelper({
-        weekdayOpen : 1,
-        weekdayClose : 12,
-        weekendOpen : 3,
-        weekendClose : 11
+        weekdayOpen : 6,
+        weekdayClose : 18,
+        weekendOpen : 8,
+        weekendClose : 17
     });
 */
 
@@ -133,21 +133,65 @@ var timeHelper = function( params ){
 
     };
 
+    self.localize = function(){
+        if( self.daylightTime() ){
+            self.localizePDT();
+        } else {
+            self.localizePST();
+        }
+    }
+
     self.localizePST = function(){
+        // localize timezone UTC-7
+        // adjust the day if necessary
+        // if self.hour === 7-23,
+        //      self.hour = self.hour - 7
+        // if self.hour === 0-6
+        //      self.hour = self.hour + 17
+        //      if self.day === 0
+        //          self.day = 7
+        //      else
+        //          self.day = self.day -1
+        console.log(' localizing PST ');
 
-    // localize to previous day if an 8 hour negative offset returns a negative value 
-    // self.isPreviousDay takes the hour offset as a param
-    // since PST is 8 hours behind UTC, use 8 as the offset param
-
-        if ( self.isPreviousDay( { offset: 8 } ) ){
-
-            if( self.day === 0 ){
+        if( self.hour > 6 ){
+            console.log('self.hour init: ' + self.hour);
+            self.hour = self.hour - 7;
+            console.log('self.hour adj: ' + self.hour);
+        } else {
+            self.hour = self.hour + 17;
+            if(self.day === 0){
                 self.day = 7;
             } else {
                 self.day = self.day - 1;
             }
         }
-    };
+    }
+
+    self.localizePDT = function(){
+        // localize timezone to UTC-8
+        // adjust the day if necessary
+        // if self.hour === 8-23,
+        //      self.hour = self.hour - 8
+        // if self.hour === 0-6
+        //      self.hour = self.hour + 16
+        //      if self.day === 0
+        //          self.day = 7
+        //      else
+        //          self.day = self.day -1        
+
+        if( self.hour > 7 ){
+            self.hour = self.hour - 8;
+        } else {
+            self.hour = self.hour + 16;
+
+            if(self.day === 0){
+                self.day = 7;
+            } else {
+                self.day = self.day - 1;
+            }
+        }    
+    }
 
     self.checkWeekend = function( day ){
         // Check to see if it's saturday or sunday
@@ -187,11 +231,15 @@ var timeHelper = function( params ){
 
     self.initHourRange = function(){
         self.initTime();
+        self.localize();
         self.setHourRange();
     };
 
     self.isOpen = function(){
-
+        console.log(    'self.hour: ' + self.hour + '\n' + 
+                        'self.open: ' + self.open + '\n' +
+                        'self.close: ' + self.close + '\n'
+                        )
         if( self.hour < self.open || self.hour >= self.close ){
             return false;
         }

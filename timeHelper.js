@@ -133,13 +133,6 @@ var timeHelper = function( params ){
         console.log('weekendClose : ' + self.weekendClose);
     };
 
-    // This is a subroutine to handle the edge cases of
-    // transition between weekend and weekday.
-    // The two edge case days are Sat and Mon.
-    // UTC Sat may still be PST Fri.
-    // UTC Mon may still be PST Sun.
-    // The hour offset for PST is 8 hours
-
     self.daylightTime = function(){
         // if it's April through October, use daylight time ( PDT )
         // if it's December through Feb, use standard time ( PST )
@@ -165,12 +158,12 @@ var timeHelper = function( params ){
                 return true;
             
             // if it's Sunday, it's the second one, so return true
-            } else if( self.UTCDay === 0 ){
+            } else if( self.day === 0 ){
                 return true;
             
             // if it's Monday, check to see if it's after the 8th, 
             // if so, the second Sunday must have passed already, use PDT
-            } else if( self.UTCDay === 1 ){
+            } else if( self.day === 1 ){
                 if( self.UTCDate > 8 ){
                     return true;
                 } else {
@@ -179,7 +172,7 @@ var timeHelper = function( params ){
      
             // if it's Tuesday, check to see if it's after the 9th, 
             // if so, the second Sunday must have passed already, use PDT            
-            } else if( self.UTCDay === 2 ){
+            } else if( self.day === 2 ){
                 if( self.UTCDate > 9 ){
                     return true;
                 } else {
@@ -188,7 +181,7 @@ var timeHelper = function( params ){
  
             // if it's Wednesday, check to see if it's after the 10th, 
             // if so, the second Sunday must have passed already, use PDT            
-            } else if( self.UTCDay === 3 ){
+            } else if( self.day === 3 ){
                 if( self.UTCDate > 10 ){
                     return true;
                 } else {
@@ -196,7 +189,7 @@ var timeHelper = function( params ){
                 }
             // if it's Thursday, check to see if it's after the 11th, 
             // if so, the second Sunday must have passed already, use PDT                         
-            } else if( self.UTCDay === 4 ){
+            } else if( self.day === 4 ){
                 if( self.UTCDate > 11 ){
                     return true;
                 } else {
@@ -204,7 +197,7 @@ var timeHelper = function( params ){
                 }
             // if it's Friday, check to see if it's after the 12th, 
             // if so, the second Sunday must have passed already, use PDT 
-            } else if( self.UTCDay === 5 ){
+            } else if( self.day === 5 ){
                 if( self.UTCDate > 12 ){
                     return true;
                 } else {
@@ -212,7 +205,7 @@ var timeHelper = function( params ){
                 }
             // if it's Saturday, check to see if it's after the 13th, 
             // if so, the second Sunday must have passed already, use PDT
-            } else if( self.UTCDay === 6 ){
+            } else if( self.day === 6 ){
                 if( self.UTCDate > 13 ){
                     return true;
                 } else {
@@ -226,12 +219,12 @@ var timeHelper = function( params ){
                 return true;
             
             // if it's Sunday, it's the first one, so return true
-            } else if( self.UTCDay === 0 ){
+            } else if( self.day === 0 ){
                 return true;
             
             // if it's Monday, check to see if it's after the 1st, 
             // if so, the first Sunday must have passed already, use PST
-            } else if( self.UTCDay === 1 ){
+            } else if( self.day === 1 ){
                 if( self.UTCDate > 1 ){
                     return false;
                 } else {
@@ -240,7 +233,7 @@ var timeHelper = function( params ){
      
             // if it's Tuesday, check to see if it's after the 2nd, 
             // if so, the first Sunday must have passed already, use PST            
-            } else if( self.UTCDay === 2 ){
+            } else if( self.day === 2 ){
                 if( self.UTCDate > 2 ){
                     return false;
                 } else {
@@ -249,7 +242,7 @@ var timeHelper = function( params ){
  
             // if it's Wednesday, check to see if it's after the 3rd, 
             // if so, the first Sunday must have passed already, use PST            
-            } else if( self.UTCDay === 3 ){
+            } else if( self.day === 3 ){
                 if( self.UTCDate > 3 ){
                     return false;
                 } else {
@@ -257,7 +250,7 @@ var timeHelper = function( params ){
                 }
             // if it's Thursday, check to see if it's after the 4th, 
             // if so, the first Sunday must have passed already, use PST                         
-            } else if( self.UTCDay === 4 ){
+            } else if( self.day === 4 ){
                 if( self.UTCDate > 4 ){
                     return false;
                 } else {
@@ -265,7 +258,7 @@ var timeHelper = function( params ){
                 }
             // if it's Friday, check to see if it's after the 5th, 
             // if so, the first Sunday must have passed already, use PST 
-            } else if( self.UTCDay === 5 ){
+            } else if( self.day === 5 ){
                 if( self.UTCDate > 5 ){
                     return false;
                 } else {
@@ -273,7 +266,7 @@ var timeHelper = function( params ){
                 }
             // if it's Saturday, check to see if it's after the 6th, 
             // if so, the first Sunday must have passed already, use PST
-            } else if( self.UTCDay === 6 ){
+            } else if( self.day === 6 ){
                 if( self.UTCDate > 6 ){
                     return false;
                 } else {
@@ -346,15 +339,6 @@ var timeHelper = function( params ){
     self.checkWeekend = function( day ){
         // Check to see if it's saturday or sunday
         if( day === 0 || day === 7 ){
-            return true;
-        } else {
-            return false;
-        }
-    };
-
-    self.checkEdgeDay = function( day ){
-        // Check to see if it's saturday or monday
-        if( day === 1 || day === 7 ){
             return true;
         } else {
             return false;

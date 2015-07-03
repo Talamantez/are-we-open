@@ -137,20 +137,20 @@ suite("test the object", function(){
             expect( T ).to.have.property('printHours');
         });
 
-    test("a timeHelper object should have the isPreviousDay function", function(){
-            expect( T ).to.have.property('isPreviousDay');
+    test("a timeHelper object should have the localize function", function(){
+            expect( T ).to.have.property('localize');
         });
     
+    test("a timeHelper object should have the localizePDT function", function(){
+            expect( T ).to.have.property('localizePDT');
+        });
+
     test("a timeHelper object should have the localizePST function", function(){
             expect( T ).to.have.property('localizePST');
         });
     
     test("a timeHelper object should have the checkWeekend function", function(){
             expect( T ).to.have.property('checkWeekend');
-        });
-    
-    test("a timeHelper object should have the checkEdgeDay function", function(){
-            expect( T ).to.have.property('checkEdgeDay');
         });
     
     test("a timeHelper object should have the setHourRange function", function(){
@@ -322,7 +322,7 @@ suite("time-generation: ", function(){
 
 });
 
-suite("Localize to PST : ", function(){
+suite("Localize : ", function(){
     var T = null;
     var params =
         {
@@ -337,54 +337,55 @@ suite("Localize to PST : ", function(){
         T = new t.timeHelper( params );    
     } );    
 
-    // localization to PST
+    // localization
 
-    test("isPreviousDay should return true if T.hour - offset < 0", function(){
-        T.hour = 0 ;
-        expect( { offset: 8 } ).to.satisfy( 
-            function( offset ){
-                var result = T.isPreviousDay( offset );
-                return result;
-        });
-    });
+    // self.localize localizes to PDT if self.daylightTime() returns true
+    // else, it localizes to PST
 
-    test("isPreviousDay should return false if T.hour - offset > 0", function(){
-        T.hour = 10 ;
-        expect( { offset: 8 } ).to.not.satisfy( 
-            function( offset ){
-                var result = T.isPreviousDay( offset );
-                return result;
-        });
-    });
+    // self.daylightTime should return true if the date is between 
+    // the second sunday in March to the first sunday in November
 
-    test("localizePST() should set T.day to T.day - 1 if T.hour - 8 < 0 for T.day === 1-7", function(){
-        for( var i = 1 ; i < 8 ; i++ ){    
-            T.hour = 0;
-            T.day = i;
-            var storedDay = T.day;
-            T.localizePST();
-            expect( T.day ).to.equal( i - 1 );
-        }
-    });    
-
-    test("localizePST() should set T.day to 7 if T.hour - 8 < 0 and T.day === 0", function(){  
-            T.hour = 0;
-            T.day = 0;
-            var storedDay = T.day;
-            T.localizePST();
-            expect( T.day ).to.equal( 7 );
-    });    
-
-    test("localizePST() should not set T.day to T.day - 1 if T.hour - 8 > 0 for T.day === 1-7", function(){
-        for( var i = 1 ; i < 8 ; i++ ){    
-            T.hour = 10;
-            T.day = i;
-            var storedDay = T.day;
-            T.localizePST();
-            expect( T.day ).not.to.equal( i - 1 );
+    test("If self.month = 3-9 ( April - Oct ), daylightTime should return true", function(){
+        for( var i = 3 ; i < 10 ; i++ ){
+            T.month = i;
+            var result = T.daylightTime();
+            console.log('result ' + result );
+            expect( result ).to.equal( true );
         }
     });
 
+    test("If self.month = 0 || 1 ( Jan - Feb ), daylightTime should return false", function(){
+        for( var i = 0 ; i < 2 ; i++ ){
+            T.month = i;
+            var result = T.daylightTime();
+            console.log('result ' + result);
+            expect( result ).to.equal( false );
+        }
+    });
+
+    test("If self.month = 2 && self.UTCDate < 7, daylightTime should return false", function(){
+        T.month = 2;
+        for( var i = 1 ; i < 7 ; i++ ){
+            T.UTCDate = i;
+            var result = T.daylightTime();
+            expect( result ).to.equal( false );
+        }
+    });
+
+    test("If self.month = 2 && self.UTCDate > 14, daylightTime should return true", function(){
+        T.month = 2;
+        T.UTCDate = 15;
+        var result = T.daylightTime();
+        expect( result ).to.equal( true );
+    });
+
+    test("If self.month = 2 && self.UTCDate is between 7 & 15, & self.day === 0, daylightTime should return true ", function(){
+        T.month = 2;
+        T.UTCDate = 8;
+        T.day = 0;
+        var result = T.daylightTime();
+        expect( result ).to.equal( true );
+    });
 
 });
 
@@ -402,7 +403,7 @@ suite("time-generation: ", function(){
         T = null;
         T = new t.timeHelper( params );    
     } );    
-    // Check edge days and weekends
+    // Check for weekends
 
     test("checkWeekend should return true if T.day is 0", function(){
         expect( 0 ).to.satisfy( function(day){
@@ -429,39 +430,8 @@ suite("time-generation: ", function(){
         };
     });
 
-    test("checkEdgeDay should return true if T.day === 1", function(){
-        expect( 1 ).to.satisfy(
-            function( day ){
-                var result = T.checkEdgeDay( day );
-                return result;
-            }
-        );
-    });
-
-    test("checkEdgeDay should return true if T.day === 7", function(){
-        expect( 7 ).to.satisfy(
-            function( day ){
-                var result = T.checkEdgeDay( day );
-                return result;
-            }
-        );
-    });    
-
-    test("checkEdgeDay should return false if T.day === 0 || 2-6", function(){
-        expect( 0 ).to.not.satisfy(
-            function( day ){
-                var result = T.checkEdgeDay( day );
-            }
-        );
-        for( var i = 2 ; i < 7 ; i++ ){
-            expect( i ).to.not.satisfy( 
-                function(day){
-                    var result = T.checkWeekend( day );
-                    return result;
-                }
-            );
-        };
-    });
+    // initTime runs generate Date, UTCDate, Month, Day, Hour.  Check to make sure these
+    // values load into the object
 
     test("initTime should set self.date", function(){
         T.initTime()

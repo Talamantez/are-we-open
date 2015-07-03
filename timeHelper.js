@@ -61,14 +61,15 @@ var timeHelper = function( params ){
     
     // initialize date, day, and hour as null
     self.date = null;
+    self.UTCDate = null;
     self.day  = null;
     self.hour = null;
+    self.month = null;
 
     // initialize open and close hours as null
     self.open  = null;
     self.close = null;
 
-    // Generate a new date when the object is created
     self.generateDate = function(){
         var deferred = q.defer();
         deferred.resolve = (
@@ -76,6 +77,22 @@ var timeHelper = function( params ){
         );
         return deferred.promise;
     };
+
+    self.generateUTCDate = function(){
+        var deferred = q.defer();
+        deferred.resolve = (
+            self.UTCDate = self.date.getUTCDate()
+        );
+        return deferred.promise;
+    };    
+
+    self.generateMonth = function(){
+        var deferred = q.defer();
+        deferred.resolve( 
+            self.day = self.date.getUTCMonth()
+        );
+        return deferred.promise;        
+    }
 
     self.generateDay = function(){
         var deferred = q.defer();
@@ -92,6 +109,7 @@ var timeHelper = function( params ){
         );
         return deferred.promise;
     };
+
     // Initialize Day and Hour when called
 
     self.initTime = function(){
@@ -99,6 +117,8 @@ var timeHelper = function( params ){
         deferred.resolve = (
             function(){
                 self.generateDate();
+                self.generateUTCDate();
+                self.generateMonth();
                 self.generateDay();
                 self.generateHour();
             }()
@@ -120,18 +140,148 @@ var timeHelper = function( params ){
     // UTC Mon may still be PST Sun.
     // The hour offset for PST is 8 hours
 
-    self.isPreviousDay = function( params ){
-        // if the current hour - 8 goes into the negative
-        // it means the day UTC is the previous day PST
-        // Accepts an object with hour "offset" as a param
+    self.daylightTime = function(){
+        // if it's April through October, use daylight time ( PDT )
+        // if it's December through Feb, use standard time ( PST )
+        // if it's March and on or after the 2nd sunday of the month
+        //      use PDT
+        // if it's November and on or after the 1st sunday of the month
+        //      use PST
 
-        if( self.hour - params.offset > 0 ){
-            return false;
-        } else {
+        if( self.month > 2 && self.month < 10 ){
             return true;
-        }
 
-    };
+        } else if( self.month === 12 || self.month === 0 || self.month === 1 ){
+            return false;
+
+        // If it's March ...
+        } else if( self.month === 2 ){
+            // if it's before the March 8, use PST
+            if( self.UTCDate < 8 ){
+                return false;
+
+            // if it's after March 14th, use PDT   
+            } else if( self.UTCDate > 14 ) {
+                return true;
+            
+            // if it's Sunday, it's the second one, so return true
+            } else if( self.UTCDay === 0 ){
+                return true;
+            
+            // if it's Monday, check to see if it's after the 8th, 
+            // if so, the second Sunday must have passed already, use PDT
+            } else if( self.UTCDay === 1 ){
+                if( self.UTCDate > 8 ){
+                    return true;
+                } else {
+                    return false;
+                } 
+     
+            // if it's Tuesday, check to see if it's after the 9th, 
+            // if so, the second Sunday must have passed already, use PDT            
+            } else if( self.UTCDay === 2 ){
+                if( self.UTCDate > 9 ){
+                    return true;
+                } else {
+                    return false;
+                } 
+ 
+            // if it's Wednesday, check to see if it's after the 10th, 
+            // if so, the second Sunday must have passed already, use PDT            
+            } else if( self.UTCDay === 3 ){
+                if( self.UTCDate > 10 ){
+                    return true;
+                } else {
+                    return false;
+                }
+            // if it's Thursday, check to see if it's after the 11th, 
+            // if so, the second Sunday must have passed already, use PDT                         
+            } else if( self.UTCDay === 4 ){
+                if( self.UTCDate > 11 ){
+                    return true;
+                } else {
+                    return false;
+                }
+            // if it's Friday, check to see if it's after the 12th, 
+            // if so, the second Sunday must have passed already, use PDT 
+            } else if( self.UTCDay === 5 ){
+                if( self.UTCDate > 12 ){
+                    return true;
+                } else {
+                    return false;
+                }
+            // if it's Saturday, check to see if it's after the 13th, 
+            // if so, the second Sunday must have passed already, use PDT
+            } else if( self.UTCDay === 6 ){
+                if( self.UTCDate > 13 ){
+                    return true;
+                } else {
+                    return false;
+                }
+            }   
+        // If it's November...
+        } else if( self.month === 10 ){
+            // if it's after November 7, use PST
+            if( self.UTCDate > 7 ) {
+                return true;
+            
+            // if it's Sunday, it's the first one, so return true
+            } else if( self.UTCDay === 0 ){
+                return true;
+            
+            // if it's Monday, check to see if it's after the 1st, 
+            // if so, the first Sunday must have passed already, use PST
+            } else if( self.UTCDay === 1 ){
+                if( self.UTCDate > 1 ){
+                    return false;
+                } else {
+                    return true;
+                } 
+     
+            // if it's Tuesday, check to see if it's after the 2nd, 
+            // if so, the first Sunday must have passed already, use PST            
+            } else if( self.UTCDay === 2 ){
+                if( self.UTCDate > 2 ){
+                    return false;
+                } else {
+                    return true;
+                } 
+ 
+            // if it's Wednesday, check to see if it's after the 3rd, 
+            // if so, the first Sunday must have passed already, use PST            
+            } else if( self.UTCDay === 3 ){
+                if( self.UTCDate > 3 ){
+                    return false;
+                } else {
+                    return true;
+                }
+            // if it's Thursday, check to see if it's after the 4th, 
+            // if so, the first Sunday must have passed already, use PST                         
+            } else if( self.UTCDay === 4 ){
+                if( self.UTCDate > 4 ){
+                    return false;
+                } else {
+                    return true;
+                }
+            // if it's Friday, check to see if it's after the 5th, 
+            // if so, the first Sunday must have passed already, use PST 
+            } else if( self.UTCDay === 5 ){
+                if( self.UTCDate > 5 ){
+                    return false;
+                } else {
+                    return true;
+                }
+            // if it's Saturday, check to see if it's after the 6th, 
+            // if so, the first Sunday must have passed already, use PST
+            } else if( self.UTCDay === 6 ){
+                if( self.UTCDate > 6 ){
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }            
+    }
 
     self.localize = function(){
         if( self.daylightTime() ){

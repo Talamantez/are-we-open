@@ -20,4 +20,6 @@ var newTimehelper = function( params ){
     return deferred.promise;
 }
 
-newTimehelper().then( T.printHours() ).then( T.compareHourRange() );
+newTimehelper();
+T.initHourRange();
+console.dir( T );

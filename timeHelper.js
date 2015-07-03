@@ -68,9 +68,6 @@ var timeHelper = function( params ){
     self.open  = null;
     self.close = null;
 
-    // initialize isOpen boolean
-    self.isOpen = null;
-
     // Generate a new date when the object is created
     self.generateDate = function(){
         var deferred = q.defer();
@@ -190,10 +187,9 @@ var timeHelper = function( params ){
 
     self.initHourRange = function(){
         self.initTime();
-        self.localizePST();
         self.setHourRange();
-    }
-    
+    };
+
     self.isOpen = function(){
 
         if( self.hour < self.open || self.hour >= self.close ){

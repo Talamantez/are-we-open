@@ -363,6 +363,9 @@ suite("Localize : ", function(){
         }
     });
 
+
+    // Test transition from PST to PDT
+
     test("If self.month = 2 && self.UTCDate < 7, daylightTime should return false", function(){
         T.month = 2;
         for( var i = 1 ; i < 7 ; i++ ){
@@ -386,6 +389,222 @@ suite("Localize : ", function(){
         var result = T.daylightTime();
         expect( result ).to.equal( true );
     });
+
+    test("If self.month = 2 && self.UTCDate is after the 8th & self.day === 1, daylightTime should return true ", function(){
+        T.month = 2;
+        T.UTCDate = 9;
+        T.day = 1;
+        var result = T.daylightTime();
+        expect( result ).to.equal( true );
+    });
+    
+    test("If self.month = 2 && self.UTCDate is the 8th & self.day === 1, daylightTime should return false ", function(){
+        T.month = 2;
+        T.UTCDate = 8;
+        T.day = 1;
+        var result = T.daylightTime();
+        expect( result ).to.equal( false );
+    });
+
+    test("If self.month = 2 && self.UTCDate is after the 9th & self.day === 2, daylightTime should return true ", function(){
+        T.month = 2;
+        T.UTCDate = 10;
+        T.day = 2;
+        var result = T.daylightTime();
+        expect( result ).to.equal( true );
+    });
+    
+    test("If self.month = 2 && self.UTCDate is the 9th & self.day === 2, daylightTime should return false ", function(){
+        T.month = 2;
+        T.UTCDate = 9;
+        T.day = 2;
+        var result = T.daylightTime();
+        expect( result ).to.equal( false );
+    });
+
+    test("If self.month = 2 && self.UTCDate is after the 10th & self.day === 3, daylightTime should return true ", function(){
+        T.month = 2;
+        T.UTCDate = 11;
+        T.day = 3;
+        var result = T.daylightTime();
+        expect( result ).to.equal( true );
+    });
+    
+    test("If self.month = 2 && self.UTCDate is the 10th & self.day === 3, daylightTime should return false ", function(){
+        T.month = 2;
+        T.UTCDate = 10;
+        T.day = 3;
+        var result = T.daylightTime();
+        expect( result ).to.equal( false );
+    });
+
+    test("If self.month = 2 && self.UTCDate is after the 11th & self.day === 4, daylightTime should return true ", function(){
+        T.month = 2;
+        T.UTCDate = 12;
+        T.day = 4;
+        var result = T.daylightTime();
+        expect( result ).to.equal( true );
+    });
+    
+    test("If self.month = 2 && self.UTCDate is the 11th & self.day === 4, daylightTime should return false ", function(){
+        T.month = 2;
+        T.UTCDate = 11;
+        T.day = 4;
+        var result = T.daylightTime();
+        expect( result ).to.equal( false );
+    });
+
+    test("If self.month = 2 && self.UTCDate is after the 12th & self.day === 5, daylightTime should return true ", function(){
+        T.month = 2;
+        T.UTCDate = 13;
+        T.day = 5;
+        var result = T.daylightTime();
+        expect( result ).to.equal( true );
+    });
+    
+    test("If self.month = 2 && self.UTCDate is the 12th & self.day === 5, daylightTime should return false ", function(){
+        T.month = 2;
+        T.UTCDate = 12;
+        T.day = 5;
+        var result = T.daylightTime();
+        expect( result ).to.equal( false );
+    });
+
+    test("If self.month = 2 && self.UTCDate is after the 13th & self.day === 6, daylightTime should return true ", function(){
+        T.month = 2;
+        T.UTCDate = 14;
+        T.day = 6;
+        var result = T.daylightTime();
+        expect( result ).to.equal( true );
+    });
+    
+    test("If self.month = 2 && self.UTCDate is the 13th & self.day === 6, daylightTime should return false ", function(){
+        T.month = 2;
+        T.UTCDate = 13;
+        T.day = 6;
+        var result = T.daylightTime();
+        expect( result ).to.equal( false );
+    });
+    
+    // Test transition from PDT to PST
+
+    test("If self.month = 10 && self.UTCDate > 7, daylightTime should return false", function(){
+        T.month = 10;
+        T.UTCDate = 8;
+        var result = T.daylightTime();
+        expect( result ).to.equal( false );
+    });
+
+    test("If self.month = 10 && self.UTCDate < 8 & self.day === 0, daylightTime should return false ", function(){
+        T.month = 10;
+        T.UTCDate = 7;
+        T.day = 0;
+        var result = T.daylightTime();
+        expect( result ).to.equal( false );
+    });
+
+    // if it's monday...
+    test("If self.month = 10 && self.day = 1 && self.UTCDate is not after the 1st, daylightTime should return true", function(){
+        T.month = 10;
+        T.UTCDate = 1;
+        T.day = 1;
+        var result = T.daylightTime();
+        expect( result ).to.equal( true );
+    });
+
+    test("If self.month = 10 && self.day = 1 && self.UTCDate is after the 1st, daylightTime should return false", function(){
+        T.month = 10;
+        T.UTCDate = 2;
+        T.day = 1;
+        var result = T.daylightTime();
+        expect( result ).to.equal( false );
+    });
+
+    // if it's tuesday...
+    test("If self.month = 10 && self.day = 2 && self.UTCDate is not after the 2nd, daylightTime should return true", function(){
+        T.month = 10;
+        T.UTCDate = 2;
+        T.day = 2;
+        var result = T.daylightTime();
+        expect( result ).to.equal( true );
+    });
+
+    test("If self.month = 10 && self.day = 2 && self.UTCDate is after the 2nd, daylightTime should return false", function(){
+        T.month = 10;
+        T.UTCDate = 3;
+        T.day = 2;
+        var result = T.daylightTime();
+        expect( result ).to.equal( false );
+    });
+
+    // if it's wednesday...
+    test("If self.month = 10 && self.day = 3 && self.UTCDate is not after the 3rd, daylightTime should return true", function(){
+        T.month = 10;
+        T.UTCDate = 3;
+        T.day = 3;
+        var result = T.daylightTime();
+        expect( result ).to.equal( true );
+    });
+
+    test("If self.month = 10 && self.day = 3 && self.UTCDate is after the 3rd, daylightTime should return false", function(){
+        T.month = 10;
+        T.UTCDate = 4;
+        T.day = 3;
+        var result = T.daylightTime();
+        expect( result ).to.equal( false );
+    });
+
+    // if it's thursday...
+    test("If self.month = 10 && self.day = 4 && self.UTCDate is not after the 4th, daylightTime should return true", function(){
+        T.month = 10;
+        T.UTCDate = 4;
+        T.day = 4;
+        var result = T.daylightTime();
+        expect( result ).to.equal( true );
+    });
+
+    test("If self.month = 10 && self.day = 4 && self.UTCDate is after the 4th, daylightTime should return false", function(){
+        T.month = 10;
+        T.UTCDate = 5;
+        T.day = 4;
+        var result = T.daylightTime();
+        expect( result ).to.equal( false );
+    });
+
+    // if it's friday...
+    test("If self.month = 10 && self.day = 5 && self.UTCDate is not after the 5th, daylightTime should return true", function(){
+        T.month = 10;
+        T.UTCDate = 5;
+        T.day = 5;
+        var result = T.daylightTime();
+        expect( result ).to.equal( true );
+    });
+
+    test("If self.month = 10 && self.day = 5 && self.UTCDate is after the 5th, daylightTime should return false", function(){
+        T.month = 10;
+        T.UTCDate = 6;
+        T.day = 5;
+        var result = T.daylightTime();
+        expect( result ).to.equal( false );
+    });
+
+    // if it's saturday...
+    test("If self.month = 10 && self.day = 6 && self.UTCDate is not after the 6th, daylightTime should return true", function(){
+        T.month = 10;
+        T.UTCDate = 6;
+        T.day = 6;
+        var result = T.daylightTime();
+        expect( result ).to.equal( true );
+    });
+
+    test("If self.month = 10 && self.day = 6 && self.UTCDate is after the 6th, daylightTime should return false", function(){
+        T.month = 10;
+        T.UTCDate = 7;
+        T.day = 6;
+        var result = T.daylightTime();
+        expect( result ).to.equal( false );
+    });
+    
 
 });
 
@@ -461,8 +680,8 @@ suite("time-generation: ", function(){
     });
 
     test("setHourRange should set self.open", function(){
-        T.setHourRange().
-            then(
+        T.setHourRange()
+            .then(
                 function(){
                     expect( T.open ).to.not.equal( null )
                 }()
@@ -470,8 +689,8 @@ suite("time-generation: ", function(){
     });
 
     test("setHourRange should set self.close", function(){
-        T.setHourRange().
-            then(
+        T.setHourRange()
+            .then(
                 function(){
                     expect( T.open ).to.not.equal( null )
                 }()

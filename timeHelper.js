@@ -216,11 +216,11 @@ var timeHelper = function( params ){
         } else if( self.month === 10 ){
             // if it's after November 7, use PST
             if( self.UTCDate > 7 ) {
-                return true;
+                return false;
             
-            // if it's Sunday, it's the first one, so return true
+            // if it's Sunday, it's the first one, so return false
             } else if( self.day === 0 ){
-                return true;
+                return false;
             
             // if it's Monday, check to see if it's after the 1st, 
             // if so, the first Sunday must have passed already, use PST

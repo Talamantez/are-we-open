@@ -2,7 +2,7 @@
     timeHelper returns 'open' if your business is currently open
 */
 
-/*  Initialize a timeHelper with UTC hours for weekday and weekend hours
+/*  Initialize a timeHelper with Pacific Time hours for weekday and weekend hours
 
     var myTimeHelper = new timeHelper({
         weekdayOpen : 6,
@@ -356,7 +356,7 @@ var timeHelper = function( params ){
             'adj self.hour: ' + self.hour + '\n' +
             'adj self.month: ' + self.month            
         );
-        
+
         if( self.hour < self.open || self.hour >= self.close ){
             return false;
         }

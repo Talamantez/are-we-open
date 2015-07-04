@@ -1,5 +1,5 @@
 /*
-    timeHelper returns 'open' if your business is currently open
+    timeHelper returns true if your business is currently open
 */
 
 /*  Initialize a timeHelper with Pacific Time hours for weekday and weekend hours
@@ -14,7 +14,6 @@
 
 'use strict';
 var timeHelper = function( params ){
-    // all hours are UTC
     var self = this;
 
     // throw an error if the params are anything other than the expected params

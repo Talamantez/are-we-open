@@ -71,59 +71,33 @@ var timeHelper = function( params ){
     self.close = null;
 
     self.generateDate = function(){
-        var deferred = q.defer();
-        deferred.resolve = (
-            self.date = new Date( Date() )
-        );
-        return deferred.promise;
+        self.date = new Date( Date() );
     };
 
     self.generateUTCDate = function(){
-        var deferred = q.defer();
-        deferred.resolve = (
-            self.UTCDate = self.date.getUTCDate()
-        );
-        return deferred.promise;
+        self.UTCDate = self.date.getUTCDate();
     };    
 
     self.generateMonth = function(){
-        var deferred = q.defer();
-        deferred.resolve( 
-            self.day = self.date.getUTCMonth()
-        );
-        return deferred.promise;        
+        self.day = self.date.getUTCMonth()      
     }
 
     self.generateDay = function(){
-        var deferred = q.defer();
-        deferred.resolve( 
-            self.day = self.date.getUTCDay()
-        );
-        return deferred.promise;
+        self.day = self.date.getUTCDay()
     };
     
     self.generateHour = function(){  
-        var deferred = q.defer();
-        deferred.resolve = (
-            self.hour = self.date.getUTCHours()
-        );
-        return deferred.promise;
+        self.hour = self.date.getUTCHours()
     };
 
     // Initialize Day and Hour when called
 
     self.initTime = function(){
-        var deferred = q.defer();
-        deferred.resolve = (
-            function(){
-                self.generateDate();
-                self.generateUTCDate();
-                self.generateMonth();
-                self.generateDay();
-                self.generateHour();
-            }()
-        );
-        return deferred.promise;
+        self.generateDate();
+        self.generateUTCDate();
+        self.generateDay();
+        self.generateHour();
+        self.generateMonth();
     };
 
     self.printHours = function(){
@@ -277,14 +251,15 @@ var timeHelper = function( params ){
     }
 
     self.localize = function(){
-        if( self.daylightTime() ){
+        var isDaylightTime = self.daylightTime();
+        if( isDaylightTime ){
             self.localizePDT();
         } else {
             self.localizePST();
         }
     }
 
-    self.localizePST = function(){
+    self.localizePDT = function(){
         // localize timezone UTC-7
         // adjust the day if necessary
         // if self.hour === 7-23,
@@ -295,7 +270,7 @@ var timeHelper = function( params ){
         //          self.day = 7
         //      else
         //          self.day = self.day -1
-        console.log(' localizing PST ');
+        console.log(' localizing PDT ');
 
         if( self.hour > 6 ){
             console.log('self.hour init: ' + self.hour);
@@ -311,7 +286,7 @@ var timeHelper = function( params ){
         }
     }
 
-    self.localizePDT = function(){
+    self.localizePST = function(){
         // localize timezone to UTC-8
         // adjust the day if necessary
         // if self.hour === 8-23,
@@ -322,6 +297,7 @@ var timeHelper = function( params ){
         //          self.day = 7
         //      else
         //          self.day = self.day -1        
+        console.log(' localizing PST ');
 
         if( self.hour > 7 ){
             self.hour = self.hour - 8;

@@ -85,90 +85,6 @@ suite("initialization testing", function(){
     })
 })
 
-suite("test the object", function(){
-    /*
-     *  timeHelpers accepts the following params to initialize it:
-     *     
-        {
-            weekdayOpen : INT(0-24),
-            weekdayClose : INT(0-24,
-            weekendOpen : INT(0-24),
-            weekendClose : INT(0-24)
-        }
-     */
-    var T = null;
-    var params =
-        {
-            weekdayOpen : 6,
-            weekdayClose : 18,
-            weekendOpen : 8,
-            weekendClose : 17
-        };
-
-    beforeEach( function(){
-        T = null;
-        T = new t.timeHelper( params );    
-    } );
-
-    
-    // Object init tests
-
-    test("instantiating a timeHelper should return an object", function(){
-            expect( T ).to.be.an('object');
-        });
-
-    test("a timeHelper object should have the generateDate function", function(){
-            expect( T ).to.have.property('generateDate');
-        });
-
-    test("a timeHelper object should have the initTime function", function(){
-            expect( T ).to.have.property('initTime');
-        });
-
-    test("a timeHelper object should have the generateDay function", function(){
-            expect( T ).to.have.property('generateDay');
-        });
-
-    test("a timeHelper object should have the generateHour function", function(){
-            expect( T ).to.have.property('generateHour');
-        });
-    
-    test("a timeHelper object should have the printHours function", function(){
-            expect( T ).to.have.property('printHours');
-        });
-
-    test("a timeHelper object should have the localize function", function(){
-            expect( T ).to.have.property('localize');
-        });
-    
-    test("a timeHelper object should have the localizePDT function", function(){
-            expect( T ).to.have.property('localizePDT');
-        });
-
-    test("a timeHelper object should have the localizePST function", function(){
-            expect( T ).to.have.property('localizePST');
-        });
-    
-    test("a timeHelper object should have the checkWeekend function", function(){
-            expect( T ).to.have.property('checkWeekend');
-        });
-    
-    test("a timeHelper object should have the setHourRange function", function(){
-            expect( T ).to.have.property('setHourRange');
-        });
-    
-    test("a timeHelper object should have the initHourRange function", function(){
-            expect( T ).to.have.property('initHourRange');
-        });
-      
-    test("a timeHelper object should have the isOpen function", function(){
-            expect( T ).to.have.property('isOpen');
-        });
-    
-    test("a timeHelper object should not have the octopus property", function(){
-            expect( T ).to.not.have.property('octopus');
-        });
-});
 
 suite("time-generation: ", function(){
     var T = null;
@@ -187,137 +103,91 @@ suite("time-generation: ", function(){
     // Generate date tests
 
     test("generateDate should load a date object into self.date", function(){
-        T.generateDate().then( 
-            function(){
-                expect( T.date ).to.exist;
-            }()
-        )
+        T.generateDate()
+        expect( T.date ).to.exist;
     });
 
     test("generateDate should not fail to load a date object into self.date", function(){
-        T.generateDate().then( 
-            function(){
-                expect( T.date ).to.not.equal(null);
-            }()
-        )
+        T.generateDate();
+        expect( T.date ).to.not.equal( null );
     });    
 
     test("generateDate should load an object into self.date who's valueOf() function returns a number", function(){
-        T.generateDate().then( 
-            function(){
-                var value = T.date.valueOf();
-                expect( value ).to.be.a('number');
-            }()
-        )
+        T.generateDate();
+        var value = T.date.valueOf();
+        expect( value ).to.be.a('number');
     });    
 
     test("generateDate should load an object into self.date who's valueOf() does not return a string", function(){
-        T.generateDate().then( 
-            function(){
-                var value = T.date.valueOf();
-                expect( value ).to.not.be.a('string');
-            }()
-        )
+        T.generateDate();
+        var value = T.date.valueOf();
+        expect( value ).to.not.be.a('string');
     }); 
 
     test("generateDate should load an object into self.date who's valueOf() returns a 13 digit number", function(){
-        T.generateDate().then( 
-            function(){
-                var value = T.date.valueOf().toString();
-                expect( value ).to.have.length( 13 );
-            }()
-        )
+        T.generateDate();
+        var value = T.date.valueOf().toString();
+        expect( value ).to.have.length( 13 );
     }); 
 
     test("generateDate should load an object into self.date who's valueOf() does not return a string", function(){
-        T.generateDate().then( 
-            function(){
-                var value = T.date.valueOf();
-                expect( value ).to.not.be.a('string');
-            }()
-        )
+        T.generateDate();
+        var value = T.date.valueOf();
+        expect( value ).to.not.be.a('string');
     }); 
 
 
     // Generate Day tests
 
     test("generateDay() should return a number", function(){
-        T.generateDate()
-            .then( T.generateDay() )
-            .then(
-                function(){
-                    var value = T.day;
-                    expect( value ).to.be.a( 'number' );
-                }()
-        )
+        T.generateDate();
+        T.generateDay();
+        var value = T.day;
+        expect( value ).to.be.a( 'number' );
     });
 
     test("generateDay() should return a number of length 1", function(){
-        T.generateDate()
-            .then( T.generateDay() )
-            .then(
-                function(){
-                    var value = T.day.toString();
-                    expect( value ).to.have.length( 1 );
-                }()
-        )
+        T.generateDate();
+        T.generateDay();
+        var value = T.day.toString();
+        expect( value ).to.have.length( 1 );
     });
 
     test("generateDay() should return a number ranging between 1 and 7", function(){
-        T.generateDate()
-            .then( T.generateDay() )
-            .then(
-                function(){
-                    var value = T.day;
-                    expect( value ).to.be.at.least(1).and.to.be.below(8);
-                }()
-        )
+        T.generateDate();
+        T.generateDay();
+        var value = T.day;
+        expect( value ).to.be.at.least(1).and.to.be.below(8);
     });
 
     test("generateDay() should return a number ranging between 1 and 7", function(){
-        T.generateDate()
-            .then( T.generateDay() )
-            .then(
-                function(){
-                    var value = T.day;
-                    expect( value ).to.be.at.least( 1 ).and.to.be.below( 8 );
-                }()
-        )
-    });
+        T.generateDate();
+        T.generateDay();
+        var value = T.day;
+        expect( value ).to.be.at.least( 1 ).and.to.be.below( 8 );
+        });
 
     // Generate Hour tests
 
     test("generateHour() should return a number", function(){
-        T.generateDate()
-            .then( T.generateHour() )
-            .then(
-                function(){
-                    var value = T.hour;
-                    expect( value ).to.be.a( 'number' );
-                }()
-        )
+        T.generateDate();
+        T.generateHour();
+        var value = T.hour;
+        expect( value ).to.be.a( 'number' );
     });
 
     test("generateHour() should return a number of length 1 or 2", function(){
-        T.generateDate()
-            .then( T.generateHour() )
-            .then(
-                function(){
-                    var value = T.hour.toString();
-                    expect( value.length ).to.be.at.least( 1 ).and.to.be.below( 3 );
-                }()
-        )
+        T.generateDate();
+        T.generateHour();
+        var value = T.hour.toString();
+        expect( value.length ).to.be.at.least( 1 ).and.to.be.below( 3 );
     });
 
     test("generateHour() should return a number ranging between 0 and 23", function(){
-        T.generateDate()
-            .then( T.generateHour() )
-            .then(
-                function(){
-                    var value = T.hour;
-                    expect( value ).to.be.at.least( 0 ).and.to.be.below( 24 );
-                }()
-        )
+        T.generateDate();
+        T.generateHour();
+        var value = T.hour;
+        expect( value ).to.be.at.least( 0 ).and.to.be.below( 24 );
     });
 
 });
@@ -653,30 +523,18 @@ suite("time-generation: ", function(){
     // values load into the object
 
     test("initTime should set self.date", function(){
-        T.initTime()
-            .then(
-                function(){
-                    expect( T.date ).to.not.equal( null )
-                }()
-            );
+        T.initTime();
+        expect( T.date ).to.not.equal( null );
     });
 
     test("initTime should set self.day", function(){
-        T.initTime()
-            .then(
-                function(){
-                    expect( T.day ).to.not.equal( null )
-                }()
-            );
+        T.initTime();
+        expect( T.day ).to.not.equal( null );
     });
 
     test("initTime should set self.hour", function(){
-        T.initTime()
-            .then(
-                function(){
-                    expect( T.hour ).to.not.equal( null )
-                }()
-            );
+        T.initTime();
+        expect( T.hour ).to.not.equal( null );
     });
 
     test("setHourRange should set self.open", function(){

@@ -96,6 +96,13 @@ var timeHelper = function( params ){
         self.generateDay();
         self.generateHour();
         self.generateMonth();
+        console.log(
+            'raw self.date: ' + self.date + '\n' +
+            'raw self.UTCDate: ' + self.UTCDate + '\n' +
+            'raw self.day: ' + self.day + '\n' +
+            'raw self.hour: ' + self.hour + '\n' +
+            'raw self.month: ' + self.month            
+        );
     };
 
     self.printHours = function(){
@@ -338,10 +345,18 @@ var timeHelper = function( params ){
     };
 
     self.isOpen = function(){
-        console.log(    'self.hour: ' + self.hour + '\n' + 
-                        'self.open: ' + self.open + '\n' +
-                        'self.close: ' + self.close + '\n'
-                        )
+        console.log(    
+            'self.hour: ' + self.hour + '\n' + 
+            'self.open: ' + self.open + '\n' +
+            'self.close: ' + self.close + '\n' +
+
+            'adj self.date: ' + self.date + '\n' +
+            'adj self.UTCDate: ' + self.UTCDate + '\n' +
+            'adj self.day: ' + self.day + '\n' +
+            'adj self.hour: ' + self.hour + '\n' +
+            'adj self.month: ' + self.month            
+        );
+        
         if( self.hour < self.open || self.hour >= self.close ){
             return false;
         }

@@ -235,6 +235,7 @@ suite("Localize : ", function(){
 
 
     // Test transition from PST to PDT
+    // if it's march...
 
     test("If self.month = 2 && self.UTCDate < 7, daylightTime should return false", function(){
         T.month = 2;
@@ -357,7 +358,8 @@ suite("Localize : ", function(){
     });
     
     // Test transition from PDT to PST
-
+    // if it's November...
+    
     test("If self.month = 10 && self.UTCDate > 7, daylightTime should return false", function(){
         T.month = 10;
         T.UTCDate = 8;
@@ -474,7 +476,6 @@ suite("Localize : ", function(){
         var result = T.daylightTime();
         expect( result ).to.equal( false );
     });
-    
 
 });
 

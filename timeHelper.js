@@ -13,8 +13,6 @@
 */
 
 'use strict';
-var q = require('q');
-
 var timeHelper = function( params ){
     // all hours are UTC
     var self = this;

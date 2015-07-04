@@ -79,7 +79,7 @@ var timeHelper = function( params ){
     };    
 
     self.generateMonth = function(){
-        self.day = self.date.getUTCMonth()      
+        self.month = self.date.getUTCMonth()      
     }
 
     self.generateDay = function(){

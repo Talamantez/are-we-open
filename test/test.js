@@ -538,21 +538,13 @@ suite("time-generation: ", function(){
     });
 
     test("setHourRange should set self.open", function(){
-        T.setHourRange()
-            .then(
-                function(){
-                    expect( T.open ).to.not.equal( null )
-                }()
-            );
+        T.setHourRange();
+        expect( T.open ).to.not.equal( null );
     });
 
     test("setHourRange should set self.close", function(){
-        T.setHourRange()
-            .then(
-                function(){
-                    expect( T.open ).to.not.equal( null )
-                }()
-            );
+        T.setHourRange();
+        expect( T.open ).to.not.equal( null );
     });
 
     test("setHourRange should set self.open to self.weekendOpen if day is 7", function(){

@@ -322,21 +322,15 @@ var timeHelper = function( params ){
     };
 
     self.setHourRange = function(){
-        var deferred = q.defer();
-        deferred.resolve(
-            function(){
-                if( self.checkWeekend( self.day ) ){
-                    // If true, set open and close to weekend hours
-                    self.open = self.weekendOpen;
-                    self.close = self.weekendClose;
-                } else {
-                    // Else, set open and close to weekday hours
-                    self.open = self.weekdayOpen;
-                    self.close = self.weekdayClose;
-                }
-            }()
-        );
-        return deferred.promise;        
+        if( self.checkWeekend( self.day ) ){
+            // If true, set open and close to weekend hours
+            self.open = self.weekendOpen;
+            self.close = self.weekendClose;
+        } else {
+            // Else, set open and close to weekday hours
+            self.open = self.weekdayOpen;
+            self.close = self.weekdayClose;
+        }      
     };
 
     self.initHourRange = function(){

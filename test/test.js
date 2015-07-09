@@ -153,19 +153,12 @@ suite("time-generation: ", function(){
         expect( value ).to.have.length( 1 );
     });
 
-    test("generateDay() should return a number ranging between 1 and 7", function(){
+    test("generateDay() should return a number ranging between 0 and 6", function(){
         T.generateDate();
         T.generateDay();
         var value = T.day;
-        expect( value ).to.be.at.least(1).and.to.be.below(8);
+        expect( value ).to.be.at.least( 0 ).and.to.be.below(6);
     });
-
-    test("generateDay() should return a number ranging between 1 and 7", function(){
-        T.generateDate();
-        T.generateDay();
-        var value = T.day;
-        expect( value ).to.be.at.least( 1 ).and.to.be.below( 8 );
-        });
 
     // Generate Hour tests
 
@@ -548,7 +541,7 @@ suite("time-generation: ", function(){
         expect( T.open ).to.not.equal( null );
     });
 
-    test("setHourRange should set self.open to self.weekendOpen if day is 7", function(){
+    test("setHourRange should set self.open to self.weekendOpen if day is 6", function(){
         T.day = 6;
         T.setHourRange();
         expect( T.open ).to.equal( T.weekendOpen );
@@ -560,7 +553,7 @@ suite("time-generation: ", function(){
         expect( T.open ).to.equal( T.weekendOpen );
     });
 
-    test("setHourRange should set self.close to self.weekendClose if day is 7", function(){
+    test("setHourRange should set self.close to self.weekendClose if day is 6", function(){
         T.day = 6;
         T.setHourRange();
         expect( T.close ).to.equal( T.weekendClose );
@@ -635,8 +628,6 @@ suite("Hour range comparison", function(){
     test("initHourRange should set self.hour", function(){
         T.initHourRange();
         expect( T.hour ).to.not.equal( null );
-    });
-    test("initHourRange should change the day if localization is necessary", function(){
     });
     test("initHourRange should set self.open", function(){
         T.initHourRange();

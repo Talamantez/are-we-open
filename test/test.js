@@ -502,15 +502,15 @@ suite("time-generation: ", function(){
         });
     });   
 
-    test("checkWeekend should return true if T.day is 7", function(){
-        expect( 7 ).to.satisfy( function(day){
+    test("checkWeekend should return true if T.day is 6", function(){
+        expect( 6 ).to.satisfy( function(day){
             var result = T.checkWeekend( day );
             return result;
         });
     });        
 
-    test("checkWeekend should return false if T.day is 1-6", function(){
-        for( var i = 1 ; i < 7 ; i++ ){
+    test("checkWeekend should return false if T.day is 1-5", function(){
+        for( var i = 1 ; i < 6 ; i++ ){
             expect( i ).to.not.satisfy( 
                 function(day){
                     var result = T.checkWeekend( day );
@@ -549,7 +549,7 @@ suite("time-generation: ", function(){
     });
 
     test("setHourRange should set self.open to self.weekendOpen if day is 7", function(){
-        T.day = 7;
+        T.day = 6;
         T.setHourRange();
         expect( T.open ).to.equal( T.weekendOpen );
     });
@@ -561,7 +561,7 @@ suite("time-generation: ", function(){
     });
 
     test("setHourRange should set self.close to self.weekendClose if day is 7", function(){
-        T.day = 7;
+        T.day = 6;
         T.setHourRange();
         expect( T.close ).to.equal( T.weekendClose );
     });
@@ -572,16 +572,16 @@ suite("time-generation: ", function(){
         expect( T.close ).to.equal( T.weekendClose );
     });
 
-    test("setHourRange should set self.open to self.weekdayOpen if day is 1-6", function(){
-        for( var i = 1 ; i < 7 ; i++ ){
+    test("setHourRange should set self.open to self.weekdayOpen if day is 1-5", function(){
+        for( var i = 1 ; i < 6 ; i++ ){
             T.day = i;
             T.setHourRange();
             expect( T.open ).to.equal( T.weekdayOpen )
         }
     });
 
-    test("setHourRange should set self.close to self.weekdayClose if day is 1-6", function(){
-        for( var i = 1 ; i < 7 ; i++ ){
+    test("setHourRange should set self.close to self.weekdayClose if day is 1-5", function(){
+        for( var i = 1 ; i < 6 ; i++ ){
             T.day = 0;
             T.setHourRange();
             expect( T.close ).to.equal( T.weekendClose )

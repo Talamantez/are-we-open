@@ -1,18 +1,54 @@
-/*
-    timeHelper returns true if your business is currently open
-*/
+<script src="./bower_components/jquery/dist/jquery.js"></script>
 
-/*  Initialize a timeHelper with Pacific Time hours for weekday and weekend hours
+<style>
 
-    var myTimeHelper = new timeHelper({
+    /* create a class to toggle the divs on based on the UTC time */
+    .shown {
+        display: block;
+    }
+    .hidden {
+        display: none;
+    }
+
+</style>
+
+<script>
+
+
+$( document ).ready(function() {
+
+    // Initialize a new timeHelper with the hours you want in UTC
+
+    var T = new timeHelper({
         weekdayOpen : 6,
-        weekdayClose : 18,
         weekendOpen : 8,
+        weekdayClose : 18,
         weekendClose : 17
     });
-*/
 
-'use strict';
+    T.initHourRange();
+    var result = T.isOpen();
+
+    if( result ){
+        console.log(" toggling open ");
+        $( '.open' ).toggleClass( 'shown' );
+
+    } else {
+        console.log(" toggling closed ");
+        $( '.closed' ).toggleClass( 'shown' );
+
+    };
+
+});
+
+</script>
+
+<div class="open"> Heyooo We're Open</div>
+<div class="closed"> Shucks, you missed us. Catch us in the morning!</div>
+
+
+
+<script>
 var timeHelper = function( params ){
     var self = this;
 
@@ -255,6 +291,7 @@ var timeHelper = function( params ){
     }
 
     self.localize = function(){
+        console.log('localizing');
         var isDaylightTime = self.daylightTime();
         if( isDaylightTime ){
             self.localizePDT();
@@ -271,7 +308,7 @@ var timeHelper = function( params ){
         // if self.hour === 0-6
         //      self.hour = self.hour + 17
         //      if self.day === 0
-        //          self.day = 6
+        //          self.day = 7
         //      else
         //          self.day = self.day -1
         console.log(' localizing PDT ');
@@ -283,7 +320,7 @@ var timeHelper = function( params ){
         } else {
             self.hour = self.hour + 17;
             if(self.day === 0){
-                self.day = 6;
+                self.day = 7;
             } else {
                 self.day = self.day - 1;
             }
@@ -298,7 +335,7 @@ var timeHelper = function( params ){
         // if self.hour === 0-6
         //      self.hour = self.hour + 16
         //      if self.day === 0
-        //          self.day = 6
+        //          self.day = 7
         //      else
         //          self.day = self.day -1        
         console.log(' localizing PST ');
@@ -309,7 +346,7 @@ var timeHelper = function( params ){
             self.hour = self.hour + 16;
 
             if(self.day === 0){
-                self.day = 6;
+                self.day = 7;
             } else {
                 self.day = self.day - 1;
             }
@@ -318,12 +355,7 @@ var timeHelper = function( params ){
 
     self.checkWeekend = function( day ){
         // Check to see if it's saturday or sunday
-        if( day < 0 ){
-            throw new Error('days can\'t be negative');
-        } else if( day > 6 ){
-            throw new Error('days must be between 0 (sunday) and 6 (saturday)');
-        }
-        if( day === 0 || day === 6 ){
+        if( day === 0 || day === 7 ){
             return true;
         } else {
             return false;
@@ -369,6 +401,5 @@ var timeHelper = function( params ){
         }
     };
 
-};
-
-module.exports.timeHelper = timeHelper;
+};    
+</script>
